@@ -2,13 +2,23 @@ require 'time'
 
 class Event
   
-  attr_accessor :title, :duration, :attendees, :start_date
+  attr_accessor :title, :duration, :attendees, :start_date, :idx1, :idx2
+
+  @@instances = []
 
   def initialize(start_date, duration, title, attendees)
     @start_date = Time.parse(start_date)
     @duration = duration
     @title = title.to_s
     @attendees = attendees
+    @day = @start_date.day.to_i
+    @@instances << self
+    @idx1 = @day / 7
+    @idx2 = @day % 7 - 1
+  end
+
+  def self.all
+    @@instances
   end
 
   def postpone_24h
@@ -38,12 +48,12 @@ class Event
     return Time.now >= (start_date - (30 * 60)) && Time.now < start_date
   end
   
-  def to_s
-    puts "> Titre : #{@title}"
-    puts "> Date de début : #{@start_date.strftime("%Y-%m-%d %k:%M %A")}"
-    puts "> Durée : #{@duration} minutes"
-    puts "> Invités : #{@attendees.join(", ")}"
-  end
+  # def to_s
+  #   puts "> Titre : #{@title}"
+  #   puts "> Date de début : #{@start_date.strftime("%Y-%m-%d %k:%M %A")}"
+  #   puts "> Durée : #{@duration} minutes"
+  #   puts "> Invités : #{@attendees.join(", ")}"
+  # end
 
 end
 

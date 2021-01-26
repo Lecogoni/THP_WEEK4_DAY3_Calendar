@@ -10,15 +10,28 @@ class User
     @email = email
     @age = age
     @@user_count = @@user_count + 1
-    @@all_users << @email 
+    @@all_users << self
   end
 
   def greet
     puts "Bonjour, monde !"
   end
 
-  def get_email
-    return @email
+  def self.all
+    @@all_users
+  end
+
+  def self.find_by_email(email)
+    @@all_users.each do |user|
+
+      if user.email == email
+        return user
+      end
+
+    end
+
+    puts "aucun utilisateur n'a cet email"
+    return false
   end
 
   def show_itself
